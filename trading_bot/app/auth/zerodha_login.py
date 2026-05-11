@@ -209,7 +209,7 @@ class ZerodhaLogin:
         
         playwright = sync_playwright().start()
         self.browser = playwright.chromium.launch(
-            headless=True,  # Headless mode for automation
+            headless=False,  # Headless mode for automation
             args=['--disable-blink-features=AutomationControlled']
         )
         self.context = self.browser.new_context(
