@@ -209,14 +209,16 @@ class ZerodhaLogin:
         
         playwright = sync_playwright().start()
         self.browser = playwright.chromium.launch(
-            headless=False,  # Headless mode for automation
-            args=['--disable-blink-features=AutomationControlled']
+            headless=False,  # Visible for debugging
+            args=['--disable-blink-features=AutomationControlled'],
+            slow_mo=500
         )
         self.context = self.browser.new_context(
             viewport={"width": 1280, "height": 720},
             user_agent="Mozilla/5.0"
         )
         self.page = self.context.new_page()
+        self.page.set_default_timeout(60000)
         
         trading_logger.info("Browser initialized")
     
@@ -246,14 +248,22 @@ class ZerodhaLogin:
             
             # Enter user ID
             trading_logger.info(f"Entering user ID: {self.user_id}")
-            self.page.wait_for_load_state(); self.page.wait_for_selector("input[name="user_id"]"); self.page.fill('input[name="user_id"]', self.user_id)
+            # Debug: screenshot and wait
+            self.page.screenshot(path="debug_login.png")
+            print("Current URL:", self.page.url)
+            
+            # Wait and use newer selector
+            self.page.wait_for_load_state("networkidle")
+            self.page.wait_for_selector("#userid")
+            self.page.fill('#userid', self.user_id)
             self.page.click('button[type="submit"]')
             
             time.sleep(1)
             
             # Enter password
             trading_logger.info("Entering password")
-            self.page.wait_for_load_state(); self.page.wait_for_selector("input[name="user_id"]"); self.page.fill('input[name="password"]', self.password)
+            self.page.wait_for_selector("#password")
+            self.page.fill('#password', self.password)
             self.page.click('button[type="submit"]')
             
             time.sleep(2)
@@ -261,7 +271,8 @@ class ZerodhaLogin:
             # Enter TOTP
             totp_code = self._generate_totp()
             trading_logger.info("Entering TOTP")
-            self.page.wait_for_load_state(); self.page.wait_for_selector("input[name="user_id"]"); self.page.fill('input[name="totp"]', totp_code)
+            self.page.wait_for_selector("#totp")
+            self.page.fill('#totp', totp_code)
             self.page.click('button[type="submit"]')
             
             time.sleep(3)
