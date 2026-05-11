@@ -213,8 +213,8 @@ class ZerodhaLogin:
             args=['--disable-blink-features=AutomationControlled']
         )
         self.context = self.browser.new_context(
-            viewport={'width': 1280, '720'},
-            user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            viewport={"width": 1280, "height": 720},
+            user_agent="Mozilla/5.0"
         )
         self.page = self.context.new_page()
         
