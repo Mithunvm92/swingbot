@@ -28,7 +28,7 @@ class ScannerConfig:
     """Scanner configuration"""
     symbols: List[str] = field(default_factory=lambda: trading.DEFAULT_WATCHLIST)
     scan_interval: int = 15  # minutes
-    intervals: List[str] = field(default_factory=lambda: ["15minute", "60minute"])  # Multiple timeframes
+    intervals: List[str] = field(default_factory=lambda: [trading.SCAN_TIMEFRAME])  # Multiple timeframes
     min_confidence: float = 50.0  # minimum confidence for signals
     check_volume: bool = True
     check_market_trend: bool = True
@@ -132,7 +132,7 @@ class StockScanner:
             
             candles = self.client.get_ohlc(
                 symbol=symbol,
-                interval="60minute",
+                interval=trading.SCAN_TIMEFRAME,
                 from_date=from_date,
                 to_date=to_date
             )
