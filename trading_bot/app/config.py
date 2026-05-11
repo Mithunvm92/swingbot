@@ -93,8 +93,18 @@ class TradingConfig:
     
     # Stock Watchlist for scanning
     DEFAULT_WATCHLIST: List[str] = [
+        # Large Cap Nifty 50
         "RELIANCE", "INFY", "TCS", "HDFCBANK", "ICICIBANK",
-        "SBIN", "BHARTIARTL", "KOTAKBANK", "AXISBANK", "HINDUNILVR"
+        "SBIN", "BHARTIARTL", "KOTAKBANK", "AXISBANK", "HINDUNILVR",
+        "HDFC", "ADANIPORTS", "ASIANPAINT", "BAJFINANCE", "BPCL",
+        "COALINDIA", "DRREDDY", "GRASIM", "HCLTECH", "HEROMOTOCO",
+        "HINDZINC", "ITC", "JSWSTEEL", "MARUTI", "NTPC",
+        "ONGC", "POWERGRID", "SBILIFE", "SUNPHARMA", "TATASTEEL",
+        "TECHM", "TITAN", "ULTRACEMCO", "UPL", "WIPRO",
+        # Mid Cap
+        "BERGEPAINT", "CADILAHC", "CONCOR", "GLENMARK", "GMRINFRA",
+        "IOC", "LICHSUFIN", "MARICO", "MINDTREE", "MOTHERSUM",
+        "PETRONET", "PVR", "RAMCOIND", "SUNTV", "TATACONSUM"
     ]
     
     # Order Types
