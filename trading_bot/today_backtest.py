@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from app.config import trading
+import os; from dotenv import load_dotenv; load_dotenv(); os.environ.setdefault("SCAN_TIMEFRAME", "15minute"); from app.config import trading
 from app.scanner.scanner import StockScanner, ScannerConfig
 from datetime import datetime
 
@@ -16,7 +16,7 @@ today = datetime.now().strftime("%Y-%m-%d")
 
 print("=" * 60)
 print(f"TODAY'S BACKTEST SCAN - {today}")
-from app.config import trading; print(f"Timeframe: {trading.SCAN_TIMEFRAME}")
+import os; from dotenv import load_dotenv; load_dotenv(); os.environ.setdefault("SCAN_TIMEFRAME", "15minute"); from app.config import trading; print(f"Timeframe: {trading.SCAN_TIMEFRAME}")
 print("=" * 60)
 
 # Initialize scanner
