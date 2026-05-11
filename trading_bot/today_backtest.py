@@ -16,7 +16,7 @@ today = datetime.now().strftime("%Y-%m-%d")
 
 print("=" * 60)
 print(f"TODAY'S BACKTEST SCAN - {today}")
-print("Timeframe: 4-hour (60minute)")
+from app.config import trading; print(f"Timeframe: {trading.SCAN_TIMEFRAME}")
 print("=" * 60)
 
 # Initialize scanner
