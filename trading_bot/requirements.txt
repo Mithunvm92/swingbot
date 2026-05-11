@@ -1,0 +1,35 @@
+# Swing Trading Bot Requirements
+# Python 3.12+
+
+# Core Data Processing
+pandas>=2.0.0
+numpy>=1.24.0
+scipy>=1.11.0
+
+# Technical Analysis
+ta>=0.10.0
+
+# Zerodha Kite Connect
+kiteconnect>=4.1.0
+
+# Authentication
+pyotp>=2.9.0
+playwright>=1.40.0
+
+# Database
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.0  # For PostgreSQL (optional)
+
+# Scheduling
+apscheduler>=3.10.0
+
+# Configuration
+python-dotenv>=1.0.0
+requests>=2.31.0
+
+# Logging
+loguru>=0.7.0
+
+# Testing (optional)
+pytest>=7.4.0
+pytest-cov>=4.1.0

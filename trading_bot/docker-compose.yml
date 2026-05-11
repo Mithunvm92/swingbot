@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  tradingbot:
+    build: .
+    container_name: swing_trading_bot
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./reports:/app/reports
+    env_file:
+      - .env
+    restart: unless-stopped
+    networks:
+      - trading_network
+
+  # Optional: PostgreSQL database
+  # postgres:
+  #   image: postgres:15
+  #   container_name: trading_postgres
+  #   environment:
+  #     POSTGRES_USER: tradingbot
+  #     POSTGRES_PASSWORD: tradingbot
+  #     POSTGRES_DB: tradingbot
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   networks:
+  #     - trading_network
+
+networks:
+  trading_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
