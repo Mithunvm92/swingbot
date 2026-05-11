@@ -236,11 +236,21 @@ _token_manager = AutoTokenManager()
 def get_access_token() -> str:
     """
     Get valid access token (convenience function).
-    Automatically generates new token if needed.
+    Checks .env first, then auto-generates if needed.
     
     Returns:
         Valid access token
     """
+    import os
+    from dotenv import load_dotenv
+    load_dotenv()
+    
+    # Check for manually added token in .env
+    manual_token = os.environ.get("ACCESS_TOKEN")
+    if manual_token:
+        trading_logger.info("Using manual ACCESS_TOKEN from .env")
+        return manual_token
+    
     return _token_manager.generate_token_if_needed()
 
 
