@@ -52,7 +52,7 @@ if results:
     for r in results:
         print(f"  {r['symbol']:12} | {r['signal']:4} | ₹{r['price']:8.2f} | {r['confidence']:5.1f}%")
 else:
-    print("  No signals detected in current 4-hour timeframe")
+    print("  No signals detected in current timeframe")
 
 print("\n" + "-" * 60)
 print(f"Total: {len(results)} signals | {len(errors)} errors")
