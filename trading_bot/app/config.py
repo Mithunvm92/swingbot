@@ -83,7 +83,7 @@ class TradingConfig:
     # Trade Settings
     TRADING_COOLDOWN_MINUTES: int = int(os.getenv("TRADING_COOLDOWN_MINUTES", "15"))
     SCAN_INTERVAL_MINUTES: int = int(os.getenv("SCAN_INTERVAL_MINUTES", "15"))
-    SCAN_TIMEFRAME: str = os.getenv("SCAN_TIMEFRAME", "60minute")
+    SCAN_TIMEFRAME: str = os.getenv("SCAN_TIMEFRAME", "15minute")
     
     # Market Settings
     # Nifty 50 instruments for market trend analysis
@@ -202,7 +202,7 @@ class SchedulerConfig:
     
     # Scanner Schedule
     SCAN_INTERVAL_MINUTES: int = int(os.getenv("SCAN_INTERVAL_MINUTES", "15"))
-    SCAN_TIMEFRAME: str = os.getenv("SCAN_TIMEFRAME", "60minute")
+    SCAN_TIMEFRAME: str = os.getenv("SCAN_TIMEFRAME", "15minute")
 
 # ============================================================================
 # LOGGING CONFIGURATION
