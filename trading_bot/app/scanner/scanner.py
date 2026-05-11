@@ -1,3 +1,8 @@
+
+def get_timeframe():
+    from app.config import trading
+    return [trading.SCAN_TIMEFRAME]
+
 """
 Stock Scanner Module
 ==================
@@ -28,7 +33,7 @@ class ScannerConfig:
     """Scanner configuration"""
     symbols: List[str] = field(default_factory=lambda: trading.DEFAULT_WATCHLIST)
     scan_interval: int = 15  # minutes
-    intervals: List[str] = field(default_factory=lambda: [trading.SCAN_TIMEFRAME])  # Multiple timeframes
+    intervals: List[str] = field(default_factory=lambda: [get_timeframe()])  # Multiple timeframes
     min_confidence: float = 50.0  # minimum confidence for signals
     check_volume: bool = True
     check_market_trend: bool = True
