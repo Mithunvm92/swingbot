@@ -78,10 +78,10 @@ class StockScanner:
         Initialize scanner.
         
         Args:
-            client: ZerodhaClient instance
+            client: ZerodhaClient instance (optional for paper mode)
             config: Scanner configuration
         """
-        self.client = client or ZerodhaClient()
+        self.client = client
         self.config = config or ScannerConfig()
         
         # Initialize components
@@ -111,6 +111,15 @@ class StockScanner:
         Returns:
             ScanResult
         """
+        # Check if client is available
+        if self.client is None:
+            return ScanResult(
+                symbol=symbol,
+                signal=None,
+                quote=None,
+                indicators={"error": "Broker not configured"}
+            )
+        
         try:
             # Get quote
             quote = self.client.get_quote(symbol)

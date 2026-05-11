@@ -117,7 +117,13 @@ class SwingTradingBot:
             symbols=trading.DEFAULT_WATCHLIST,
             scan_interval=trading.SCAN_INTERVAL_MINUTES
         )
-        self.scanner = StockScanner(client=self.client, config=scanner_config)
+        
+        # Only create client in live mode, not in paper mode
+        if self.mode == "live":
+            self.scanner = StockScanner(client=self.client, config=scanner_config)
+        else:
+            # Paper mode - no broker client needed
+            self.scanner = StockScanner(client=None, config=scanner_config)
         
         # Initialize risk manager
         self.risk_manager = get_risk_manager()
