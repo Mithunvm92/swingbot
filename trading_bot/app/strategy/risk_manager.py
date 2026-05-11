@@ -4,7 +4,7 @@ Risk Manager Module
 Risk management for trading strategies.
 """
 
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 
