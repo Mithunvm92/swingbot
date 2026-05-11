@@ -246,14 +246,14 @@ class ZerodhaLogin:
             
             # Enter user ID
             trading_logger.info(f"Entering user ID: {self.user_id}")
-            self.page.fill('input[name="user_id"]', self.user_id)
+            self.page.wait_for_load_state(); self.page.wait_for_selector("input[name="user_id"]"); self.page.fill('input[name="user_id"]', self.user_id)
             self.page.click('button[type="submit"]')
             
             time.sleep(1)
             
             # Enter password
             trading_logger.info("Entering password")
-            self.page.fill('input[name="password"]', self.password)
+            self.page.wait_for_load_state(); self.page.wait_for_selector("input[name="user_id"]"); self.page.fill('input[name="password"]', self.password)
             self.page.click('button[type="submit"]')
             
             time.sleep(2)
@@ -261,7 +261,7 @@ class ZerodhaLogin:
             # Enter TOTP
             totp_code = self._generate_totp()
             trading_logger.info("Entering TOTP")
-            self.page.fill('input[name="totp"]', totp_code)
+            self.page.wait_for_load_state(); self.page.wait_for_selector("input[name="user_id"]"); self.page.fill('input[name="totp"]', totp_code)
             self.page.click('button[type="submit"]')
             
             time.sleep(3)
