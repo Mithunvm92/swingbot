@@ -132,7 +132,7 @@ class StockScanner:
             
             candles = self.client.get_ohlc(
                 symbol=symbol,
-                interval="15minute",
+                interval="60minute",
                 from_date=from_date,
                 to_date=to_date
             )
