@@ -296,3 +296,6 @@ MIT License
 ## Disclaimer
 
 This is for educational purposes. Trading involves risk. Use at your own risk.
+# Setup - run once after install
+playwright install chromium
+
