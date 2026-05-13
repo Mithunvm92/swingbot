@@ -5,6 +5,7 @@ from kiteconnect import KiteConnect
 from dotenv import load_dotenv
 import pyotp
 import os
+import re
 from pathlib import Path
 
 load_dotenv()
@@ -31,35 +32,20 @@ with sync_playwright() as p:
     page.fill("#password", PASSWORD)
     page.click("button[type='submit']")
 
-    # Wait for OTP screen
+    # Wait after login
     page.wait_for_timeout(5000)
 
-    # Generate TOTP
-    totp = pyotp.TOTP(TOTP_SECRET).now()
-    print("Generated TOTP:", totp)
+    current_url = page.url
+    print("Current URL:", current_url)
 
-    # Screenshot for debugging
-    page.screenshot(path="totp_screen.png")
+    match = re.search(r"request_token=([^&]+)", current_url)
+    if not match:
+        raise Exception("Request token not found")
 
-    # Fill OTP
-    page.locator("input").last.fill(totp)
+    request_token = match.group(1)
+    print("Request Token:", request_token)
 
-    # Wait slightly
-    page.wait_for_timeout(2000)
-
-    # Click final button
-    page.locator("button").last.click()
-
-    # Wait for redirect
-    page.wait_for_timeout(5000)
-
-    print("Final URL:", page.url)
     browser.close()
-
-# Extract request token
-from urllib.parse import urlparse, parse_qs
-parsed = urlparse(page.url)
-request_token = parse_qs(parsed.query)["request_token"][0]
 
 # Generate access token
 data = kite.generate_session(request_token, api_secret=API_SECRET)
