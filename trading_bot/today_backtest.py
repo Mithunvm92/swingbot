@@ -31,6 +31,8 @@ for symbol in scanner.config.symbols[:20]:
         if len(df) < 20:
             continue
         
+        print(f"  {symbol}: close={df['close'].iloc[-1]:.2f} ema20={df['ema20'].iloc[-1]:.2f} ema50={df['ema50'].iloc[-1]:.2f}")
+        
         # Calculate EMAs on historical data
         df['ema20'] = df['close'].ewm(span=20).mean()
         df['ema50'] = df['close'].ewm(span=50).mean()
@@ -57,4 +59,8 @@ else:
 
 print("-" * 60)
 print(f"Total: {len(results)} signals | {len(errors)} errors")
+if errors:
+    print("Errors:")
+    for e in errors[:5]:
+        print(f"  {e}")
 print("=" * 60)
