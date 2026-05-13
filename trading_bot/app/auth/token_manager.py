@@ -243,7 +243,9 @@ def get_access_token() -> str:
     """
     import os
     from dotenv import load_dotenv
-    load_dotenv()
+    from pathlib import Path
+    env_path = Path(__file__).parent.parent.parent / ".env"
+    load_dotenv(env_path)
     
     # Check for manually added token in .env
     manual_token = os.environ.get("ACCESS_TOKEN")
