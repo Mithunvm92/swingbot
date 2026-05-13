@@ -417,16 +417,12 @@ class ZerodhaClient:
             to_date = datetime.now()
         
         try:
-            data = self.kite.ohlc(
-                instrument=instrument,
-                interval=interval,
-                from_date=from_date.isoformat(),
-                to_date=to_date.isoformat(),
-                continuous=continuous
-            )
+            # Use kite.ohlc([symbol]) API
+            instruments = [f"NSE:{symbol}"]
+            data = self.kite.ohlc(instruments)
             
             candles = []
-            for timestamp, values in data.get(instrument, []):
+            for timestamp, values in data.get(instruments[0], []):
                 candles.append(OHLC(
                     timestamp=datetime.fromisoformat(timestamp),
                     open=values.get("open", 0),
