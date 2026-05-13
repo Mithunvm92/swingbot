@@ -197,6 +197,38 @@ class ZerodhaClient:
     # PROFILE & MARGINS
     # ========================================================================
     
+    
+    def get_historical(self, symbol: str, interval: str = "day", days: int = 30) -> pd.DataFrame:
+        """Get historical data as DataFrame."""
+        ohlc_list = self.get_ohlc(symbol, interval, continuous=True)
+        
+        if not ohlc_list:
+            return pd.DataFrame()
+        
+        # Convert to DataFrame
+        data = []
+        for o in ohlc_list:
+            data.append({
+                'date': o.timestamp,
+                'open': o.open,
+                'high': o.high,
+                'low': o.low,
+                'close': o.close,
+                'volume': o.volume
+            })
+        
+        df = pd.DataFrame(data)
+        if not df.empty:
+            df['date'] = pd.to_datetime(df['date'])
+            df = df.set_index('date').sort_index()
+        
+        # Limit to requested days
+        if len(df) > days:
+            df = df.tail(days)
+        
+        return df
+
+
     def get_profile(self) -> Dict:
         """Get user profile"""
         self._ensure_token()
