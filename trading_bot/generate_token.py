@@ -32,22 +32,28 @@ with sync_playwright() as p:
     page.fill("#password", PASSWORD)
     page.click("button[type='submit']")
 
-    # Wait for OTP inputs
-    page.wait_for_timeout(3000)
+    # Wait for OTP page
+    page.wait_for_timeout(5000)
 
     # Generate TOTP
     totp = pyotp.TOTP(TOTP_SECRET).now()
     print("Generated TOTP:", totp)
 
-    # Screenshot
+    # Screenshot for debugging
     page.screenshot(path="otp_page.png")
 
-    # Fill each OTP digit separately
-    otp_inputs = page.locator("input")
-    for i, digit in enumerate(totp):
-        otp_inputs.nth(i).fill(digit)
+    # Find visible input fields
+    inputs = page.locator("input")
+    count = inputs.count()
+    print("Input count:", count)
 
-    # Wait for auto submit / redirect
+    # Fill the LAST visible input
+    otp_field = inputs.last
+    otp_field.fill(totp)
+
+    print("OTP entered")
+
+    # Wait after entering OTP
     page.wait_for_timeout(8000)
 
     print("Final URL:", page.url)
