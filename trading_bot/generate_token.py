@@ -30,12 +30,23 @@ with sync_playwright() as p:
     page.fill("#userid", USER_ID)
     page.fill("#password", PASSWORD)
     page.click("button[type='submit']")
-    page.wait_for_timeout(2000)
 
-    # TOTP
+    # Wait for TOTP screen
+    page.wait_for_timeout(5000)
+
+    # Generate TOTP
     totp = pyotp.TOTP(TOTP_SECRET).now()
-    page.fill("input[type='text']", totp)
+    print("Generated TOTP:", totp)
+
+    # Debug screenshot
+    page.screenshot(path="totp_page.png")
+
+    # Fill OTP - use the input field
+    page.fill("input", totp)
+
+    # Submit OTP
     page.click("button[type='submit']")
+
     page.wait_for_timeout(5000)
 
     final_url = page.url
