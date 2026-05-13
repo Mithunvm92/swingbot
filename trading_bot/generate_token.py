@@ -31,30 +31,34 @@ with sync_playwright() as p:
     page.fill("#password", PASSWORD)
     page.click("button[type='submit']")
 
-    # Wait for TOTP screen
+    # Wait for OTP screen
     page.wait_for_timeout(5000)
 
     # Generate TOTP
     totp = pyotp.TOTP(TOTP_SECRET).now()
     print("Generated TOTP:", totp)
 
-    # Debug screenshot
-    page.screenshot(path="totp_page.png")
+    # Screenshot for debugging
+    page.screenshot(path="totp_screen.png")
 
-    # Fill OTP - use the input field
-    page.fill("input", totp)
+    # Fill OTP
+    page.locator("input").last.fill(totp)
 
-    # Submit OTP
-    page.click("button[type='submit']")
+    # Wait slightly
+    page.wait_for_timeout(2000)
 
+    # Click final button
+    page.locator("button").last.click()
+
+    # Wait for redirect
     page.wait_for_timeout(5000)
 
-    final_url = page.url
+    print("Final URL:", page.url)
     browser.close()
 
 # Extract request token
 from urllib.parse import urlparse, parse_qs
-parsed = urlparse(final_url)
+parsed = urlparse(page.url)
 request_token = parse_qs(parsed.query)["request_token"][0]
 
 # Generate access token
