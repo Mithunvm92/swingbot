@@ -44,7 +44,7 @@ for symbol in scanner.config.symbols[:20]:
                     "price": df['close'].iloc[-1]
                 })
     except Exception as e:
-        errors.append(symbol)
+        errors.append(f"{symbol}: {e}")
 
 print(f"\nScanned {len(scanner.config.symbols)} stocks")
 print("-" * 60)
