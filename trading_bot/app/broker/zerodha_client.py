@@ -10,6 +10,7 @@ from datetime import datetime
 from dataclasses import dataclass, field
 from enum import Enum
 
+import pandas as pd
 from kiteconnect import KiteConnect
 from kiteconnect import exceptions as KiteExceptions
 
