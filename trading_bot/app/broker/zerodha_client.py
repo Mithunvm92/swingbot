@@ -11,7 +11,9 @@ from dataclasses import dataclass, field
 from enum import Enum
 
 import pandas as pd
+import pandas as pd
 from kiteconnect import KiteConnect
+import pandas as pd
 from kiteconnect import exceptions as KiteExceptions
 
 from app.config import zerodha, trading
@@ -439,6 +441,34 @@ class ZerodhaClient:
         except Exception as e:
             trading_logger.error(f"Error fetching OHLC: {e}")
             raise DataError(f"Failed to fetch OHLC data: {e}")
+
+    def get_historical(self, symbol: str, interval: str = "day", days: int = 30) -> pd.DataFrame:
+        """Get historical data as DataFrame."""
+        ohlc_list = self.get_ohlc(symbol, interval, continuous=True)
+        
+        if not ohlc_list:
+            return pd.DataFrame()
+
+        data = []
+        for o in ohlc_list:
+            data.append({
+                'date': o.timestamp,
+                'open': o.open,
+                'high': o.high,
+                'low': o.low,
+                'close': o.close,
+                'volume': o.volume
+            })
+        
+        df = pd.DataFrame(data)
+        if not df.empty:
+            df['date'] = pd.to_datetime(df['date'])
+            df = df.set_index('date').sort_index()
+        
+        if len(df) > days:
+            df = df.tail(days)
+        
+        return df
     
     # ========================================================================
     # ORDERS
